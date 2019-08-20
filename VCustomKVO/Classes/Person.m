@@ -9,8 +9,8 @@
 #import "Person.h"
 
 @implementation Person
-static Person *_instance = nil;
-
+//static Person *_instance = nil;
+//
 //+ (instancetype)shareInstance {
 //    static dispatch_once_t onceToken ;
 //    dispatch_once(&onceToken, ^{

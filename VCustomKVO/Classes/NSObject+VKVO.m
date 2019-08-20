@@ -51,16 +51,12 @@ static NSString *const kVKVOAssiociateKey = @"kVKVO_AssiociateKey";
     SEL classSEL = NSSelectorFromString(@"class");
     Method classMethod = class_getInstanceMethod([self class], classSEL);
     const char *classType = method_getTypeEncoding(classMethod);
-//    IMP classIMP = method_getImplementation(classMethod);
-//    class_addMethod(childClass, classSEL, classIMP, classType);
-//    class_addMethod(childClass, classSEL, (IMP)classMethod, classType);
     class_addMethod(newClass, classSEL, (IMP)v_class, classType);
     
     // 添加setter方法
     SEL setterSEL = NSSelectorFromString(setterForGetter(keyPath));
     Method setterMethod = class_getInstanceMethod([self class], setterSEL);
     const char *setterType = method_getTypeEncoding(setterMethod);
-//    class_addMethod(childClass, setterSEL, method_getImplementation(setterMethod), setterType);
     class_addMethod(newClass, setterSEL, (IMP)v_setter, setterType);
     
     // 添加dealloc方法
@@ -78,7 +74,6 @@ Class v_class(id self, SEL _cmd) {
 }
 
 static void v_dealloc(id self, SEL _cmd) {
-//    return class_getSuperclass(object_getClass(self));
     Class superClass = [self class];
     object_setClass(self, superClass);
 }
@@ -86,7 +81,6 @@ static void v_dealloc(id self, SEL _cmd) {
 static void v_setter(id self, SEL _cmd, id newValue) {
     NSString *keyPath = getterForSetter(NSStringFromSelector(_cmd));
     id oldValue = [self valueForKey:keyPath];
-    // 消息发
     /// Specifies the superclass of an instance.
     struct objc_super v_objc_super = {
         .receiver = self,
@@ -111,8 +105,6 @@ static void v_setter(id self, SEL _cmd, id newValue) {
             });
         }
     }
-//    Class superClass = [self class];
-//    object_setClass(self, superClass);
 }
 
 #pragma mark - 验证是否存在setter方法
