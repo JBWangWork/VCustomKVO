@@ -37,7 +37,6 @@
     //    self.person = [[Person alloc] init];
     self.person = [Person new];
     self.person.nickName = @"hhhh";
-    
     //    [self.person addObserver:self forKeyPath:@"nickName" options:(NSKeyValueObservingOptionNew) context:NULL];
     //    [self.person addObserver:self forKeyPath:@"name" options:(NSKeyValueObservingOptionNew) context:NULL];
     //    [self.person v_addObserver:self forKeyPath:@"name" options:NSKeyValueObservingOptionNew context:NULL];

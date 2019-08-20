@@ -18,20 +18,22 @@ static NSString *const kVKVOAssiociateKey = @"kVKVO_AssiociateKey";
 - (void)v_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options handleBlock:(VKVOBlock)handleBlock {
     // 验证是否存在setter方法
     [self judgeSetterMethodFromKeyPath:keyPath];
+    
+    
     // 动态生成子类
     Class newClass = [self createChildClass:keyPath];
- 
     // 把isa指针指向生成的KVONotifying子类
     object_setClass(self, newClass);
+    VKVOInfo *KVOInfo = [[VKVOInfo alloc] initWithObserver:observer forKeyPath:keyPath options:options handleBlock:handleBlock];
     
     // 保存KVO信息
-    VKVOInfo *KVOInfo = [[VKVOInfo alloc] initWithObserver:observer forKeyPath:keyPath options:options handleBlock:handleBlock];
     NSMutableArray *infoArr = objc_getAssociatedObject(self, (__bridge const void * _Nonnull)(kVKVOAssiociateKey));
     if (!infoArr) {
         infoArr = [NSMutableArray arrayWithCapacity:1];
         objc_setAssociatedObject(self, (__bridge const void * _Nonnull)(kVKVOAssiociateKey), infoArr, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     [infoArr addObject:KVOInfo];
+    NSLog(@"%@", observer);
 }
 
 #pragma mark - 动态生成子类
@@ -99,10 +101,8 @@ static void v_setter(id self, SEL _cmd, id newValue) {
     for (VKVOInfo *info in infoArr) {
         if ([info.keyPath isEqualToString:keyPath]) {
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                if (info.options & NSKeyValueObservingOptionNew) {
-                    if (info.handleBlock) {
-                        info.handleBlock(info.observer, info.keyPath, info.options, newValue, oldValue);
-                    }
+                if (info.handleBlock) {
+                    info.handleBlock(info.observer, keyPath, info.options, newValue, oldValue);
                 }
 //                SEL obserSEL = @selector(observeValueForKeyPath:ofObject:change:context:);
 //                void (*v_objc_msgSend)(id, SEL, id, id, id, void *) = (void *)objc_msgSend;
@@ -111,6 +111,8 @@ static void v_setter(id self, SEL _cmd, id newValue) {
             });
         }
     }
+//    Class superClass = [self class];
+//    object_setClass(self, superClass);
 }
 
 #pragma mark - 验证是否存在setter方法
@@ -126,7 +128,7 @@ static void v_setter(id self, SEL _cmd, id newValue) {
 #pragma mark - 从get方法获取set方法的名称 key ===>>> setKey:
 static NSString *setterForGetter(NSString *getter){
     
-    if (getter.length <= 0) { return nil;}
+    if (getter.length <= 0) return nil;
     
     NSString *firstString = [[getter substringToIndex:1] uppercaseString];
     NSString *leaveString = [getter substringFromIndex:1];
@@ -137,7 +139,7 @@ static NSString *setterForGetter(NSString *getter){
 #pragma mark - 从set方法获取getter方法的名称 set<Key>:===> key
 static NSString *getterForSetter(NSString *setter){
     
-    if (setter.length <= 0 || ![setter hasPrefix:@"set"] || ![setter hasSuffix:@":"]) { return nil;}
+    if (setter.length <= 0 || ![setter hasPrefix:@"set"] || ![setter hasSuffix:@":"]) return nil;
     
     NSRange range = NSMakeRange(3, setter.length-4);
     NSString *getter = [setter substringWithRange:range];

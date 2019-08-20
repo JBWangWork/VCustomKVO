@@ -115,19 +115,9 @@
 		212438D0230AA58700989C87 /* VCustomKVO */ = {
 			isa = PBXGroup;
 			children = (
+				21243911230B8C4E00989C87 /* Classes */,
 				212438D1230AA58700989C87 /* AppDelegate.h */,
 				212438D2230AA58700989C87 /* AppDelegate.m */,
-				212438D4230AA58700989C87 /* ViewController.h */,
-				212438D5230AA58700989C87 /* ViewController.m */,
-				21243903230AA60900989C87 /* TestViewController.h */,
-				21243904230AA60900989C87 /* TestViewController.m */,
-				21243905230AA60900989C87 /* TestViewController.xib */,
-				2124390A230AA62D00989C87 /* Person.h */,
-				2124390D230AA62D00989C87 /* Person.m */,
-				21243909230AA62C00989C87 /* NSObject+VKVO.h */,
-				2124390C230AA62D00989C87 /* NSObject+VKVO.m */,
-				2124390B230AA62D00989C87 /* VKVOInfo.h */,
-				21243908230AA62C00989C87 /* VKVOInfo.m */,
 				212438D7230AA58700989C87 /* Main.storyboard */,
 				212438DA230AA58900989C87 /* Assets.xcassets */,
 				212438DC230AA58900989C87 /* LaunchScreen.storyboard */,
@@ -153,6 +143,24 @@
 				212438F7230AA58900989C87 /* Info.plist */,
 			);
 			path = VCustomKVOUITests;
+			sourceTree = "<group>";
+		};
+		21243911230B8C4E00989C87 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				212438D4230AA58700989C87 /* ViewController.h */,
+				212438D5230AA58700989C87 /* ViewController.m */,
+				21243903230AA60900989C87 /* TestViewController.h */,
+				21243904230AA60900989C87 /* TestViewController.m */,
+				21243905230AA60900989C87 /* TestViewController.xib */,
+				2124390A230AA62D00989C87 /* Person.h */,
+				2124390D230AA62D00989C87 /* Person.m */,
+				21243909230AA62C00989C87 /* NSObject+VKVO.h */,
+				2124390C230AA62D00989C87 /* NSObject+VKVO.m */,
+				2124390B230AA62D00989C87 /* VKVOInfo.h */,
+				21243908230AA62C00989C87 /* VKVOInfo.m */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
