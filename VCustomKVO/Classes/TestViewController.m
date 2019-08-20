@@ -40,8 +40,8 @@
     //    [self.person addObserver:self forKeyPath:@"nickName" options:(NSKeyValueObservingOptionNew) context:NULL];
     //    [self.person addObserver:self forKeyPath:@"name" options:(NSKeyValueObservingOptionNew) context:NULL];
     //    [self.person v_addObserver:self forKeyPath:@"name" options:NSKeyValueObservingOptionNew context:NULL];
-    [self.person v_addObserver:self forKeyPath:@"nickName" options:NSKeyValueObservingOptionNew handleBlock:^(NSObject * _Nonnull observer, NSString * _Nonnull keyPath, NSKeyValueObservingOptions options, id  _Nonnull newValue, id  _Nonnull oldValue) {
-        NSLog(@"%@----%@----%lu----%@----%@", observer, keyPath, options, newValue, oldValue);
+    [self.person v_addObserver:self forKeyPath:@"nickName" handleBlock:^(NSObject * _Nonnull observer, NSString * _Nonnull keyPath, id  _Nonnull newValue, id  _Nonnull oldValue) {
+        NSLog(@"%@----%@----%@----%@", observer, keyPath, newValue, oldValue);
     }];
     
     //    self.person->name = @"wahaha";

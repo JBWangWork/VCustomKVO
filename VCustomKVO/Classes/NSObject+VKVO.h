@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @interface NSObject (VKVO)
-- (void)v_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options handleBlock:(VKVOBlock)handleBlock;
+- (void)v_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath handleBlock:(VKVOBlock)handleBlock;
 @end
 
 NS_ASSUME_NONNULL_END

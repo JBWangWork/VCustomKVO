@@ -15,7 +15,7 @@ static NSString *const kVKVOAssiociateKey = @"kVKVO_AssiociateKey";
 
 @implementation NSObject (VKVO)
 
-- (void)v_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options handleBlock:(VKVOBlock)handleBlock {
+- (void)v_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath handleBlock:(VKVOBlock)handleBlock {
     // 验证是否存在setter方法
     [self judgeSetterMethodFromKeyPath:keyPath];
     
@@ -24,7 +24,7 @@ static NSString *const kVKVOAssiociateKey = @"kVKVO_AssiociateKey";
     Class newClass = [self createChildClass:keyPath];
     // 把isa指针指向生成的KVONotifying子类
     object_setClass(self, newClass);
-    VKVOInfo *KVOInfo = [[VKVOInfo alloc] initWithObserver:observer forKeyPath:keyPath options:options handleBlock:handleBlock];
+    VKVOInfo *KVOInfo = [[VKVOInfo alloc] initWithObserver:observer forKeyPath:keyPath handleBlock:handleBlock];
     
     // 保存KVO信息
     NSMutableArray *infoArr = objc_getAssociatedObject(self, (__bridge const void * _Nonnull)(kVKVOAssiociateKey));
@@ -96,7 +96,7 @@ static void v_setter(id self, SEL _cmd, id newValue) {
         if ([info.keyPath isEqualToString:keyPath]) {
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 if (info.handleBlock) {
-                    info.handleBlock(info.observer, keyPath, info.options, newValue, oldValue);
+                    info.handleBlock(info.observer, keyPath, newValue, oldValue);
                 }
 //                SEL obserSEL = @selector(observeValueForKeyPath:ofObject:change:context:);
 //                void (*v_objc_msgSend)(id, SEL, id, id, id, void *) = (void *)objc_msgSend;
