@@ -1,0 +1,11 @@
+language: objective-c
+xcode_project: VCustomKVO/VCustomKVO.xcodeproj
+xcode_scheme: VCustomKVO
+osx_image: xcode10.1
+
+script:
+- set -o pipefail
+- xcodebuild test -project "$TRAVIS_XCODE_PROJECT" -scheme "$TRAVIS_XCODE_SCHEME" -destination "name=iPhone 11 Pro Max" -enableCodeCoverage YES | xcpretty
+
+after_success:
+- bash <(curl -s https://codecov.io/bash)
